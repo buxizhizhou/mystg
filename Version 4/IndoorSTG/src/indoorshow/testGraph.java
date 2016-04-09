@@ -28,9 +28,10 @@ public class testGraph {
         Color fillc=null, borderc=Color.BLACK;
         int cx=100;
         int cy=100;
-        int cw=500;
+        int cw=100;
         int ch=400;
         Graph tgraph=new Graph(floor, type, iscontext, fillc, borderc, cx, cy, cw, ch, "");
+        Graph tgraph2=new Graph(floor, type, iscontext, fillc, borderc, cx-50, cy-50, cw, ch-100, "");
         Graph t2graph=new Graph(floor,4,iscontext,fillc,borderc,600,100,200,0,"");
         Graph t3graph=new Graph(floor,4,iscontext,fillc,borderc,0,0,50,0,"");//type为4的时候，即线段，依次为x1,y1,x2,y2
         Graph t4graph=new Graph(floor,4,iscontext,fillc,borderc,50,0,50,50,"");
@@ -38,11 +39,12 @@ public class testGraph {
         Graph t6graph=new Graph(floor,4,iscontext,fillc,borderc,0,50,0,0,"");
         ArrayList<Graph> tgraphs = new ArrayList<Graph>();
         tgraphs.add(tgraph);
+        tgraphs.add(tgraph2);
         tgraphs.add(t2graph);
         tgraphs.add(t3graph);
         tgraphs.add(t4graph);
         tgraphs.add(t5graph);
-        tgraphs.add(t6graph);
+        tgraphs.add(t6graph);/**/
         //static void save() {
         for (Graph g : tgraphs) {
             g.setCurrent(false);

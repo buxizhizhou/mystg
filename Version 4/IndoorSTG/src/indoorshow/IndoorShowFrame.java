@@ -21,6 +21,7 @@ import java.util.Locale;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -218,6 +219,7 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
         LeftStayText = new javax.swing.JTextField();
         ExportDataButton = new javax.swing.JButton();
         GeneratingDataButton = new javax.swing.JButton();
+        ExportDataButton1 = new javax.swing.JButton();
         DataTablePanel = new javax.swing.JPanel();
         DataRecordScroll = new javax.swing.JScrollPane();
         DataRecordTable = new javax.swing.JTable();
@@ -712,7 +714,7 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
         );
 
         ExportDataButton.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
-        ExportDataButton.setText("Export Data");
+        ExportDataButton.setText("Export");
         ExportDataButton.setDoubleBuffered(true);
         ExportDataButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -727,6 +729,15 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
         GeneratingDataButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GeneratingDataButtonActionPerformed(evt);
+            }
+        });
+
+        ExportDataButton1.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
+        ExportDataButton1.setText("Export2");
+        ExportDataButton1.setDoubleBuffered(true);
+        ExportDataButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExportSemDataButtonActionPerformed(evt);
             }
         });
 
@@ -749,10 +760,11 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
                     .addComponent(InOutTimePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(pramatersPanelLayout.createSequentialGroup()
-                .addComponent(GeneratingDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(GeneratingDataButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ExportDataButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ExportDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(ExportDataButton1))
         );
         pramatersPanelLayout.setVerticalGroup(
             pramatersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -775,8 +787,9 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
                 .addGap(16, 16, 16)
                 .addGroup(pramatersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ExportDataButton)
-                    .addComponent(GeneratingDataButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(GeneratingDataButton)
+                    .addComponent(ExportDataButton1))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         DataTablePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data Records", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century", 0, 12), new java.awt.Color(0, 0, 255))); // NOI18N
@@ -1193,6 +1206,167 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
         th.start();
     }//GEN-LAST:event_FloorComboBoxActionPerformed
 
+    private void ExportSemDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportSemDataButtonActionPerformed
+        // TODO add your handling code here:
+        if(cir==null || notcir==null)
+        {
+           //错误处理 
+        }
+        //int RFID_radis=35;//GraphHandle文件中hReleassed函数中定义的调整RFID椭圆的宽和高，所以，这里应该用35的一半来判断
+        int radisx[]={0,0,0,-14,14};//35是GraphHandle文件中hReleassed函数中定义的调整RFID椭圆的宽和高，所以，这里应该用35的一半来判断
+        int radisy[]={0,-14,14,0,0};//这里先构建按中上下左右顺序时xy坐标的变化
+        List<List<Integer>> RFID_cell=new ArrayList();//RFID与室内空间单元的映射   索引与cir索引对应，内容存的是notcir中的索引号
+        for(int i=0;i<cir.size();++i)
+        {
+            List<Integer> cell=new ArrayList();
+            Graph ccl=cir.get(i);
+            
+            int x=ccl.getX1();
+            int y=ccl.getY1();
+            for(int j=0;j<5;++j)
+            {
+                int cx=x+radisx[j];
+                int cy=y+radisy[j];
+                for(int k=0;k<notcir.size();++k)
+                {
+                    Graph notccl=notcir.get(k);
+                    if(notccl.getStyle()==4)  continue;//非圆形的图元中，只有类型4（边界线）不是室内空间单元
+                    int nx=notccl.getX1();
+                    int ny=notccl.getY1();
+                    int h=notccl.getHeight();
+                    int w=notccl.getWide();
+                    if(nx<=cx && cx<=nx+w && ny<=cy && cy<=ny+h)
+                    {
+                        if(cell.contains(k)==false)//不重复包含
+                            cell.add(k);
+                    }
+                }
+                if(cell.size()>=2) break;
+            }
+            
+            RFID_cell.add(cell);
+        }
+        
+        DefaultTableModel dtm = (DefaultTableModel) DataRecordTable.getModel();
+        int rowCount = dtm.getRowCount();
+        int colCount = dtm.getColumnCount();
+        if (rowCount != 0 && colCount != 0) {
+            FileWriter fw;
+            BufferedWriter bw;
+            try {
+                fw = new FileWriter("SematicData.txt");
+                bw = new BufferedWriter(fw);
+                bw.write("ID " + "Loc_ID " + "Lab_ID "+"M_ID " + "EnterTime " + "LeaveTime " + "MoveTime");
+                bw.newLine();
+                bw.flush();
+                
+                String preLocation="Corridor";
+                String preLab="Corridor";
+                for (int i = 0; i < rowCount; i++) {
+                    for (int j = 0; j < colCount; j++) {
+                        try {
+                            if(j==1)//得到的是readerID
+                            {
+                                int readerID=(Integer)dtm.getValueAt(i, j)-1;
+                                /*Graph reader=cir.get(readerID);
+                                if(start.contains(reader))
+                                {
+                                    判断入口出口之类的，其实不判断也可以
+                                }*/
+                                if(RFID_cell.get(readerID).size()==0)
+                                {
+                                    bw.write("Corridor Corridor ");
+                                    preLocation="Corridor";
+                                    preLab="Corridor";
+                                }
+                                else if(RFID_cell.get(readerID).size()==1)
+                                {
+                                    int cellID=RFID_cell.get(readerID).get(0);
+                                    Graph cell=notcir.get(cellID);
+                                    bw.write(cell.getContext()+" "+cell.getSemantics()+" ");
+                                    preLocation=cell.getContext();
+                                    preLab=cell.getSemantics();
+                                }
+                                else
+                                {
+                                    int cellID1=RFID_cell.get(readerID).get(0);
+                                    int cellID2=RFID_cell.get(readerID).get(1);
+                                    Graph cell1=notcir.get(cellID1);
+                                    Graph cell2=notcir.get(cellID2);
+                                    if(preLocation.equalsIgnoreCase("Corridor")==false)
+                                    {
+                                        if(cell1.getSemantics().equalsIgnoreCase(preLocation))
+                                        {
+                                            bw.write(preLocation+" "+preLab+" ");
+                                            preLocation=cell2.getContext();
+                                            preLab=cell2.getSemantics();
+                                        }
+                                        else if(cell2.getSemantics().equalsIgnoreCase(preLocation))
+                                        {
+                                            bw.write(preLocation+" "+preLab+" ");
+                                            preLocation=cell1.getContext();
+                                            preLab=cell1.getSemantics();
+                                        }
+                                        else
+                                        {
+                                            bw.write("前一个位置不是走廊，但当前关联的没有与前一位置相同");
+                                        //error?
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if(cell1.getSemantics().equalsIgnoreCase("Corridor"))
+                                        {
+                                            bw.write(cell2.getContext()+" "+cell2.getSemantics()+" ");
+                                            preLocation=cell2.getContext();
+                                            preLab=cell2.getSemantics();
+                                        }
+                                        else if(cell2.getSemantics().equalsIgnoreCase("Corridor"))
+                                        {
+                                            bw.write(cell1.getContext()+" "+cell1.getSemantics()+" ");
+                                            preLocation=cell1.getContext();
+                                            preLab=cell1.getSemantics();
+                                        }
+                                        else
+                                        {
+                                            bw.write("前一个位置是走廊，但当前关联的没有是走廊的");
+                                        //error?
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                                bw.write(dtm.getValueAt(i, j) + " ");
+                        } catch (IOException ex) {
+                            Logger.getLogger(IndoorShowFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    bw.newLine();
+                    bw.flush();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(IndoorShowFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Thread thr = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    JOptionPane.showMessageDialog(null, "Export Data Finished!", "Message", JOptionPane.INFORMATION_MESSAGE);
+                    repaint();
+                }
+            });
+            thr.start();
+        } else {
+            Thread thr = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    JOptionPane.showMessageDialog(null, "There are no data in the table!!!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    repaint();
+                }
+            });
+            thr.start();
+        }
+    }//GEN-LAST:event_ExportSemDataButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1238,6 +1412,7 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
     private javax.swing.JLabel EndTimeLabel;
     private javax.swing.JTextField EndTimeText;
     private javax.swing.JButton ExportDataButton;
+    private javax.swing.JButton ExportDataButton1;
     private javax.swing.JComboBox FirstLocColorComboBox;
     private javax.swing.JLabel FirstLocColorLabel;
     private javax.swing.JComboBox FloorComboBox;

@@ -16,7 +16,7 @@ public class Graph implements Serializable {
     private java.awt.Color fillcolor;
     private java.awt.Color bordercolor;
     private int style;
-    private int x1, y1, wide, height;
+    private int x1, y1, wide, height;//调用的是Rectangle类，其中x、y指左上角点的坐标，wide指宽度，横向，height指高度，纵向。
     private int floor;
     private boolean current;
     private boolean isContext = false;

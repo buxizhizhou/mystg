@@ -3,6 +3,7 @@
  * and open the template in the editor.
  * 2015-06-16 开始修改的。第一次主要GenerateData.java里判断start是否为空
  * 06-16晚 加入Git控制
+ * 16-04-08 按论文版本修改
  */
 package indoorstg;
 

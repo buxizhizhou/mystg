@@ -235,7 +235,7 @@ public class GraphHandle {
                 for (Graph g : graphs) {
                     g.setCurrent(false);
                     if (g.getStyle() == 2) {
-                        g.setWide(35);
+                        g.setWide(35);//RFID椭圆的宽和高
                         g.setHeight(35);
                     }
                 }

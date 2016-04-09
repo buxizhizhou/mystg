@@ -34,8 +34,10 @@ import oracle.sql.STRUCT;
 public class import_to_stg_fromDB {
     static int MNUM=95;//100;//缩放比例
     static int YLEN=565;//显示板的竖直高度
+    
+    public static String resFile="diansanyoubu";//为IndoorSTG构建的布局文件
 
-    //格式：类型，坐标（0，房间左下角坐标，宽度，高度；4，线段起点坐标，线段重点坐标）
+    //格式：类型，坐标（0，房间左下角坐标，宽度，高度；4，线段起点坐标，线段终点坐标）  左上角，不是左下角？
     
     public static void connect_database() throws InstantiationException, IllegalAccessException, SQLException{
            //建立数据库连接   
@@ -150,7 +152,7 @@ public class import_to_stg_fromDB {
             g.setCurrent(false);
         }
         
-        File f=new File("test-yuan");
+        File f=new File(resFile);
         try {
                 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
                 oos.writeObject(tgraphs);
