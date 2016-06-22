@@ -182,7 +182,9 @@ public class GraphHandle {
                 
                 break;
             case 1:
-                graph = new Graph(floor, type, iscontext, fillc, borderc, cx, cy, min, min, "");
+                //graph = new Graph(floor, type, iscontext, fillc, borderc, cx, cy, min, min, "");
+                graph = new Graph(floor, type, iscontext, fillc, borderc, cx, cy, cw, ch, "");
+                graph.setSemantics("LIFT");
                 break;
             case 2:
                 if (min > 35) {
@@ -192,6 +194,7 @@ public class GraphHandle {
                 break;
             case 3:
                 graph = new Graph(floor, type, iscontext, fillc, borderc, cx, cy, cw, ch, "");
+                graph.setSemantics("STAIR");
                 break;
             case 4:
                 graph = new Graph(floor, type, iscontext, fillc, borderc, mx, my, tx, ty, "");
@@ -235,8 +238,8 @@ public class GraphHandle {
                 for (Graph g : graphs) {
                     g.setCurrent(false);
                     if (g.getStyle() == 2) {
-                        g.setWide(35);//RFID椭圆的宽和高
-                        g.setHeight(35);
+                        g.setWide(25);//RFID椭圆的宽和高
+                        g.setHeight(25);
                     }
                 }
                 graphs.add(graph);

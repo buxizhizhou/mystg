@@ -1,5 +1,7 @@
 package indoorshow;
 
+//import java.util.Random;
+
 public class Person {
 
     private int id;
@@ -17,6 +19,9 @@ public class Person {
         this.type = type;
         this.inId = inId;
         this.loc = new Location[3];
+        /*Random r=new Random();设置兴趣位置个数
+        int n=r.nextInt();
+        this.intrst=new Location[n];*/
     }
 
     public int getInId() {

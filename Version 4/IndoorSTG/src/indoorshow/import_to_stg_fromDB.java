@@ -1,6 +1,7 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ * 在STG系统校正后，准备导入IndoorSTG的文件
  * 从数据库中，将数据导入到IndoorSTG
  */
 package indoorshow;
@@ -32,10 +33,10 @@ import oracle.sql.STRUCT;
  * @author hello
  */
 public class import_to_stg_fromDB {
-    static int MNUM=95;//100;//缩放比例
+    static int MNUM=40;//30;//95;//100;//缩放比例
     static int YLEN=565;//显示板的竖直高度
     
-    public static String resFile="diansanyoubu";//为IndoorSTG构建的布局文件
+    public static String resFile="diansnayoubu-lw2";//"diansanyoubu-40";//"mall-55-dr";//为IndoorSTG构建的布局文件
 
     //格式：类型，坐标（0，房间左下角坐标，宽度，高度；4，线段起点坐标，线段终点坐标）  左上角，不是左下角？
     
@@ -54,13 +55,15 @@ public class import_to_stg_fromDB {
                    //Statement stmt=con.createStatement();
                    
                    ArrayList<Graph> tgraphs=new ArrayList();//所有图元集合，最后通过save函数保存
-                   tableName="room2";//房间表
+                   tableName="stg_room";//房间表
                    String sql_rm="select * from "+tableName;
                    System.out.println("Executing query:'"+sql_rm+"'");
                    Statement stmt=con.createStatement();
                    ResultSet rms=stmt.executeQuery(sql_rm);
+                   int room=0;
                    while(rms.next())
                    {
+                       room++;
                        //得到每个房间的坐标
                        int rm_id=Integer.parseInt(rms.getString(1));
                        STRUCT rmObject=(STRUCT)rms.getObject(2);
@@ -91,15 +94,16 @@ public class import_to_stg_fromDB {
                        int high=maxY-zxjY;//高度
                        
                        boolean iscontext=false;
-                       Color fillc=null, borderc=Color.BLACK;
+                       Color fillc=Color.LIGHT_GRAY, borderc=Color.BLACK;
                        int floor=0;
                        int type=0;//0是房间，4是边界
                        Graph tgph=new Graph(floor,0,iscontext,fillc,borderc,zxjX,YLEN-zxjY-high,wide,high,"");//坐标变换，注意这里别错了。
                        tgraphs.add(tgph);
                    }
+                   System.out.println(room);
                    stmt.close();
                    
-                   tableName="lines";//边界线表
+                   tableName="stg_lines";//边界线表
                    String sql_lns="select * from "+tableName;
                    System.out.println("Executing query:'"+sql_lns+"'");
                    Statement stmt2=con.createStatement();
@@ -131,6 +135,37 @@ public class import_to_stg_fromDB {
                        tgraphs.add(tgph);
                    }
                    stmt2.close();
+                   
+                   /*tableName="door";//门表
+                   String sql_dr="select * from "+tableName;
+                   System.out.println("Executing query:'"+sql_dr+"'");
+                   Statement stmt3=con.createStatement();
+                   ResultSet dr=stmt3.executeQuery(sql_dr);
+                   int n=0;
+                   while(dr.next())
+                   {
+                       //得到每个门的坐标
+                       int rm_id=Integer.parseInt(dr.getString(1));
+                       STRUCT rmObject=(STRUCT)dr.getObject(2);
+                       JGeometry rm_geom=JGeometry.load(rmObject);
+                       double zbords[]=rm_geom.getPoint();
+                       n++;
+                       int cx=(int)zbords[0];
+                       int cy=(int)zbords[1];
+                       
+                       cx=cast(cx);
+                       cy=cast(cy);
+                       
+                       int YLEN=565;//显示板的竖直高度
+                       boolean iscontext=false;
+                       Color fillc=null, borderc=Color.BLACK;
+                       int floor=0;
+                       int type=2;//0是房间，4是边界
+                       Graph tgph=new Graph(floor,type,iscontext,fillc,borderc,cx,YLEN-cy,25,25,"");
+                       tgraphs.add(tgph);
+                   }
+                   System.out.println(n);
+                   stmt2.close();*/
                    
                    con.close();  
                    

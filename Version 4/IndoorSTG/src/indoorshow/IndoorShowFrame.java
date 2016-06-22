@@ -42,7 +42,15 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
     private final int NUMDAY = 2;//10;
     private final int FLOORNUM = 6;
     private final double PRIMARYPROB = 0.9;
-    private final double SECONDPROB = 0.8;
+    private final double SECONDPROB = 0.5;//0.8;//
+    
+    private final double SERVICEPROB = 0.4;
+    private final double INTERESTPROB = 0.9;//兴趣位置的默认概率
+    
+    private final int SERVICESTAY = 20;
+    private final int OTHERSTAY_NEW = 10;
+    private final int INTERESTSTAY = 100;
+    
     private final int PRIMARYSTAY = 240;
     private final int SECONDSTAY = 60;
     private final int OTHERSTAY = 10;
@@ -176,6 +184,10 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
         PrimaryProbText = new javax.swing.JTextField();
         SecondaryProbText = new javax.swing.JTextField();
         LocProbCheckBox = new javax.swing.JCheckBox();
+        ServiceProbLabel = new javax.swing.JLabel();
+        ServiceProbText = new javax.swing.JTextField();
+        InterestProbLabel = new javax.swing.JLabel();
+        InterestProbText = new javax.swing.JTextField();
         PersonInfoPanel = new javax.swing.JPanel();
         MaxNumObjectLabel = new javax.swing.JLabel();
         MaxNumObjectText = new javax.swing.JTextField();
@@ -212,11 +224,13 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
         PrimaryStayText = new javax.swing.JTextField();
         SecondStayLabel = new javax.swing.JLabel();
         SecondStayText = new javax.swing.JTextField();
+        ServiceStayLabel = new javax.swing.JLabel();
+        ServiceStayText = new javax.swing.JTextField();
+        StayTimeCheckBox = new javax.swing.JCheckBox();
         OtherStayLabel = new javax.swing.JLabel();
         OtherStayText = new javax.swing.JTextField();
-        StayTimeCheckBox = new javax.swing.JCheckBox();
-        LeftStayLabel = new javax.swing.JLabel();
-        LeftStayText = new javax.swing.JTextField();
+        InterestStayLabel = new javax.swing.JLabel();
+        InterestStayText = new javax.swing.JTextField();
         ExportDataButton = new javax.swing.JButton();
         GeneratingDataButton = new javax.swing.JButton();
         ExportDataButton1 = new javax.swing.JButton();
@@ -226,7 +240,9 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1400, 800));
+        setPreferredSize(new java.awt.Dimension(1389, 815));
+
+        RootPanel.setPreferredSize(new java.awt.Dimension(1389, 800));
 
         indoorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Indoor Environment", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century", 0, 12), new java.awt.Color(0, 0, 255))); // NOI18N
         indoorPanel.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
@@ -237,11 +253,11 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
         indoorPanel.setLayout(indoorPanelLayout);
         indoorPanelLayout.setHorizontalGroup(
             indoorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1071, Short.MAX_VALUE)
         );
         indoorPanelLayout.setVerticalGroup(
             indoorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 529, Short.MAX_VALUE)
+            .addGap(0, 585, Short.MAX_VALUE)
         );
 
         pramatersPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pramaters", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century", 0, 12), new java.awt.Color(0, 0, 255))); // NOI18N
@@ -361,21 +377,51 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
             }
         });
 
+        ServiceProbLabel.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
+        ServiceProbLabel.setText("Serviceloc");
+        ServiceProbLabel.setDoubleBuffered(true);
+        ServiceProbLabel.setOpaque(true);
+
+        ServiceProbText.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
+        ServiceProbText.setDoubleBuffered(true);
+
+        InterestProbLabel.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
+        InterestProbLabel.setText("Interestloc");
+        InterestProbLabel.setDoubleBuffered(true);
+        InterestProbLabel.setOpaque(true);
+
+        InterestProbText.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
+        InterestProbText.setDoubleBuffered(true);
+
         javax.swing.GroupLayout LocProbPanelLayout = new javax.swing.GroupLayout(LocProbPanel);
         LocProbPanel.setLayout(LocProbPanelLayout);
         LocProbPanelLayout.setHorizontalGroup(
             LocProbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LocProbPanelLayout.createSequentialGroup()
-                .addComponent(PrimaryProbLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PrimaryProbText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(LocProbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LocProbPanelLayout.createSequentialGroup()
-                        .addComponent(SecondaryProbLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(SecondaryProbText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(LocProbCheckBox))
+                        .addGroup(LocProbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(LocProbPanelLayout.createSequentialGroup()
+                                .addComponent(PrimaryProbLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(PrimaryProbText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(LocProbPanelLayout.createSequentialGroup()
+                                .addComponent(ServiceProbLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ServiceProbText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(LocProbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(LocProbPanelLayout.createSequentialGroup()
+                                .addComponent(SecondaryProbLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(SecondaryProbText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(LocProbPanelLayout.createSequentialGroup()
+                                .addComponent(InterestProbLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(InterestProbText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(LocProbPanelLayout.createSequentialGroup()
+                        .addGap(114, 114, 114)
+                        .addComponent(LocProbCheckBox)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         LocProbPanelLayout.setVerticalGroup(
@@ -386,8 +432,17 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
                     .addComponent(PrimaryProbText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SecondaryProbLabel)
                     .addComponent(SecondaryProbText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(LocProbCheckBox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addGroup(LocProbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(LocProbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(InterestProbLabel)
+                        .addComponent(InterestProbText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(LocProbPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ServiceProbLabel)
+                        .addComponent(ServiceProbText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(LocProbCheckBox)
+                .addContainerGap())
         );
 
         PersonInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Object", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century", 0, 12), new java.awt.Color(0, 0, 255))); // NOI18N
@@ -652,10 +707,10 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
 
         SecondStayText.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
 
-        OtherStayLabel.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
-        OtherStayLabel.setText("OtherLoc");
+        ServiceStayLabel.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
+        ServiceStayLabel.setText("ServiceLoc");
 
-        OtherStayText.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
+        ServiceStayText.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
 
         StayTimeCheckBox.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
         StayTimeCheckBox.setText("Default Setting");
@@ -665,34 +720,45 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
             }
         });
 
-        LeftStayLabel.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
-        LeftStayLabel.setText("LeftLoc");
+        OtherStayLabel.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
+        OtherStayLabel.setText("OtherLoc");
 
-        LeftStayText.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
+        OtherStayText.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
+
+        InterestStayLabel.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
+        InterestStayLabel.setText("InterestLoc");
+
+        InterestStayText.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout StayTimePanelLayout = new javax.swing.GroupLayout(StayTimePanel);
         StayTimePanel.setLayout(StayTimePanelLayout);
         StayTimePanelLayout.setHorizontalGroup(
             StayTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(StayTimePanelLayout.createSequentialGroup()
-                .addGroup(StayTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(OtherStayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PrimaryStayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(StayTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PrimaryStayText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(OtherStayText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(StayTimePanelLayout.createSequentialGroup()
+                        .addGroup(StayTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(ServiceStayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PrimaryStayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(StayTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PrimaryStayText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ServiceStayText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(StayTimePanelLayout.createSequentialGroup()
+                        .addComponent(InterestStayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(InterestStayText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(StayTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(StayTimeCheckBox)
                     .addGroup(StayTimePanelLayout.createSequentialGroup()
                         .addGroup(StayTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(SecondStayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-                            .addComponent(LeftStayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(OtherStayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(StayTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(SecondStayText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LeftStayText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(OtherStayText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         StayTimePanelLayout.setVerticalGroup(
@@ -705,12 +771,16 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
                     .addComponent(SecondStayText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(StayTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ServiceStayLabel)
+                    .addComponent(ServiceStayText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(OtherStayLabel)
-                    .addComponent(OtherStayText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(LeftStayLabel)
-                    .addComponent(LeftStayText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(OtherStayText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(StayTimeCheckBox))
+                .addGroup(StayTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(StayTimePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(InterestStayLabel)
+                        .addComponent(InterestStayText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(StayTimeCheckBox)))
         );
 
         ExportDataButton.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
@@ -733,7 +803,7 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
         });
 
         ExportDataButton1.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
-        ExportDataButton1.setText("Export2");
+        ExportDataButton1.setText("Export Semantic Tra");
         ExportDataButton1.setDoubleBuffered(true);
         ExportDataButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -750,21 +820,20 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(OpenButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(GeneratingDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pramatersPanelLayout.createSequentialGroup()
-                .addGroup(pramatersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(TrajectoryPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(InitialSettingPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PersonInfoPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LocProbPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(StayTimePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(InOutTimePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(pramatersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(TrajectoryPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(InitialSettingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PersonInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(LocProbPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(StayTimePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(InOutTimePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pramatersPanelLayout.createSequentialGroup()
+                        .addComponent(ExportDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ExportDataButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(pramatersPanelLayout.createSequentialGroup()
-                .addComponent(GeneratingDataButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ExportDataButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ExportDataButton1))
         );
         pramatersPanelLayout.setVerticalGroup(
             pramatersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -784,12 +853,13 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
                 .addComponent(InOutTimePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(TrajectoryPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(GeneratingDataButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pramatersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ExportDataButton)
-                    .addComponent(GeneratingDataButton)
                     .addComponent(ExportDataButton1))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGap(118, 118, 118))
         );
 
         DataTablePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data Records", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century", 0, 12), new java.awt.Color(0, 0, 255))); // NOI18N
@@ -844,10 +914,10 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
                     .addComponent(indoorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         RootPanelLayout.setVerticalGroup(
-            RootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(pramatersPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, RootPanelLayout.createSequentialGroup()
-                .addComponent(indoorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            RootPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pramatersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(RootPanelLayout.createSequentialGroup()
+                .addComponent(indoorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(DataTablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -860,7 +930,9 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(RootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(RootPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -947,11 +1019,19 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
             PrimaryProbText.setEditable(false);
             SecondaryProbText.setText(SECONDPROB + "");
             SecondaryProbText.setEditable(false);
+            ServiceProbText.setText(SERVICEPROB + "");
+            ServiceProbText.setEditable(false);
+            InterestProbText.setText(INTERESTPROB + "");
+            InterestProbText.setEditable(false);
         } else {
             PrimaryProbText.setText("");
             PrimaryProbText.setEditable(true);
             SecondaryProbText.setText("");
             SecondaryProbText.setEditable(true);
+            ServiceProbText.setText("");
+            ServiceProbText.setEditable(true);
+            InterestProbText.setText("");
+            InterestProbText.setEditable(true);
         }
     }//GEN-LAST:event_LocProbCheckBoxActionPerformed
 
@@ -1157,19 +1237,23 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
             PrimaryStayText.setEditable(false);
             SecondStayText.setText(SECONDSTAY + "");
             SecondStayText.setEditable(false);
-            OtherStayText.setText(OTHERSTAY + "");
+            ServiceStayText.setText(SERVICESTAY + "");
+            ServiceStayText.setEditable(false);
+            OtherStayText.setText(OTHERSTAY_NEW + "");
             OtherStayText.setEditable(false);
-            LeftStayText.setText(LEFTSTAY + "");
-            LeftStayText.setEditable(false);
+            InterestStayText.setText(INTERESTSTAY + "");
+            InterestStayText.setEditable(false);
         } else {
             PrimaryStayText.setText("");
             PrimaryStayText.setEditable(true);
             SecondStayText.setText("");
             SecondStayText.setEditable(true);
+            ServiceStayText.setText("");
+            ServiceStayText.setEditable(true);
             OtherStayText.setText("");
             OtherStayText.setEditable(true);
-            LeftStayText.setText("");
-            LeftStayText.setEditable(true);
+            InterestStayText.setText("");
+            InterestStayText.setEditable(true);
         }
     }//GEN-LAST:event_StayTimeCheckBoxActionPerformed
 
@@ -1424,8 +1508,10 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
     private javax.swing.JPanel InOutTimePanel;
     private javax.swing.JCheckBox InitialCheckBox;
     private javax.swing.JPanel InitialSettingPanel;
-    private javax.swing.JLabel LeftStayLabel;
-    private javax.swing.JTextField LeftStayText;
+    private javax.swing.JLabel InterestProbLabel;
+    private javax.swing.JTextField InterestProbText;
+    private javax.swing.JLabel InterestStayLabel;
+    private javax.swing.JTextField InterestStayText;
     private javax.swing.JCheckBox LocProbCheckBox;
     private javax.swing.JPanel LocProbPanel;
     private javax.swing.JLabel MaxNumObjectLabel;
@@ -1454,6 +1540,10 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
     private javax.swing.JTextField SecondStayText;
     private javax.swing.JLabel SecondaryProbLabel;
     private javax.swing.JTextField SecondaryProbText;
+    private javax.swing.JLabel ServiceProbLabel;
+    private javax.swing.JTextField ServiceProbText;
+    private javax.swing.JLabel ServiceStayLabel;
+    private javax.swing.JTextField ServiceStayText;
     private javax.swing.JLabel StartDateLabel;
     private javax.swing.JTextField StartDateText;
     private javax.swing.JLabel StartTimeLabel;
@@ -1670,12 +1760,12 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
         int time = OTHERSTAY;
         //int time = 0;
         try {
-            if (OtherStayText.getText().equalsIgnoreCase("")) {
-                OtherStayText.setText("" + OTHERSTAY);
+            if (ServiceStayText.getText().equalsIgnoreCase("")) {
+                ServiceStayText.setText("" + OTHERSTAY);
                 //prob = 0.125;
                 JOptionPane.showMessageDialog(this, "Other Location Stay Time uses defualt value: " + OTHERSTAY + " minute", "Message", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                time = Integer.parseInt(OtherStayText.getText());
+                time = Integer.parseInt(ServiceStayText.getText());
             }
 
         } catch (NumberFormatException e) {
@@ -1688,11 +1778,11 @@ public class IndoorShowFrame extends JFrame implements MouseMotionListener {
         int time = LEFTSTAY;
         //int time = 0;
         try {
-            if (LeftStayText.getText().equalsIgnoreCase("")) {
-                LeftStayText.setText("" + LEFTSTAY);
+            if (OtherStayText.getText().equalsIgnoreCase("")) {
+                OtherStayText.setText("" + LEFTSTAY);
                 JOptionPane.showMessageDialog(this, "Lift Stay Time uses defualt value: " + LEFTSTAY + " minute", "Message", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                time = Integer.parseInt(LeftStayText.getText());
+                time = Integer.parseInt(OtherStayText.getText());
             }
 
         } catch (NumberFormatException e) {

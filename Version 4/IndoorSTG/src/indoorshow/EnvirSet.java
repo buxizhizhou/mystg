@@ -142,7 +142,7 @@ public class EnvirSet extends javax.swing.JFrame implements MouseListener, Mouse
         MenuPanel.add(FloorBox);
 
         ElementBox.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
-        ElementBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Room(Rectangle)", "Lift(Square)", "Sensor(Circle)", "Stair(RoundedRect)", "Boundary(Line)" }));
+        ElementBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Room(Rectangle)", "Lift(Rectangle)", "Sensor(Circle)", "Stair(RoundedRect)", "Boundary(Line)" }));
         ElementBox.setPreferredSize(new java.awt.Dimension(100, 21));
         ElementBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,7 +163,7 @@ public class EnvirSet extends javax.swing.JFrame implements MouseListener, Mouse
         MenuPanel.add(ElementBox2);
 
         ElementBox1.setFont(new java.awt.Font("Century", 0, 12)); // NOI18N
-        ElementBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "", "cinema", "classroom", "Hotel", "KTV", "LAB", "office", "shopping mall", "washroom" }));
+        ElementBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "cinema", "classroom", "coffee", "Games", "Hotel", "KTV", "LAB", "Men's Fashion", "office", "restaurant", "shoes", "shopping mall", "washroom", "Women's Fashion" }));
         ElementBox1.setMinimumSize(new java.awt.Dimension(60, 19));
         ElementBox1.setPreferredSize(new java.awt.Dimension(60, 21));
         ElementBox1.addActionListener(new java.awt.event.ActionListener() {
